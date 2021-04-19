@@ -5,16 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2048 | HOME </title>
   <link rel="stylesheet" href="style.css">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+/>
   <script defer src="app.js"></script>
 </head>
 <body>
-  <div class="score_board">
-    <p>Score: <span id="currentScore">0</span></p>
-    <p>Best Score: <span id="bestScore">0</span></p>
+  <div class="heading">
+    <h1 class="animate__animated animate__bounce">2048</h1>
+    <div class="score_board">
+      <div><p>Score: <br><span id="currentScore">0</span></p></div>
+      <div><p>Best: <br><span id="bestScore">0</span></p></div>
+    </div>
   </div>
+  
   
   <div class="grid">
   </div>
+
+  <div class="winner_message">
+    <div>
+      <h2>Congratulations! You have successfully created 2048, click button below to play again!</h2>
+      <button>Play Again</button>
+    </div>
+  </div>
+
+
+  <div class="losing_message">
+    <div>
+      <h2>Gameover - better luck next time!</h2>
+      <button>Play Again</button>
+    </div>
+  </div>
   <button class="start_game">Start Game</button>
+
 </body>
 </html>

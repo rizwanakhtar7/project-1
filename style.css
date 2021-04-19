@@ -9,34 +9,179 @@ body {
   align-items: center;
   flex-direction: column;
   margin: 0;
+  background-color: #faf8ef;
 }
 
 .grid {
   display: flex;
   flex-direction: row;
-  border:1px solid grey;
-  width: 600px;
-  height: 600px;
+  border-radius: 6px;
+  width: 500px;
+  height: 500px;
   flex-wrap: wrap;
+  background-color: #bbada0;
+  padding:0.8em;
 }
 
 
 .grid div {
   width: 20%;
   height: 20%;
-  border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #EEE4DA59;
+  border:7px solid #bbada0;
+  border-radius: 6px;
+
 }
 
 .Number {
   font-size:4em;
   font-weight: bold;
+  color:#776e65;
+  background-color:#EEE4DA;
+  
 }
 
-.score_board {
-  width: 25%;
+.heading {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  width: 500px;
+  height:16vh;
+
 }
+.score_board {
+  display: flex;
+  justify-content: space-around;
+  flex:2;
+}
+
+.score_board div {
+  background-color: #bbada0;
+  flex:1;
+  margin:2px;
+  display: flex;
+  justify-content: center;
+  border-radius: 6px;
+  height:10vh;
+  align-self: center;
+
+}
+
+.score_board div p {
+  text-transform: uppercase;
+  font-weight: bold;
+  color:#EEE4DA;
+  font-size: 13px;
+
+}
+
+
+.score_board span {
+  color:white;
+  font-size: 25px;
+}
+
+button {
+  text-transform: uppercase;
+  font-weight: bold;
+  color:#EEE4DA;
+  font-size: 23px;
+  margin-top:1em;
+  border:none;
+  background-color: #8f7a66;
+  border-radius: 3px;
+  padding:0.5em;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity:0.4;
+}
+
+.two {
+  background-color: #EEE4DA !important;
+  animation: headShake; 
+  animation-duration: 1s;
+}
+
+.four {
+  background-color: #EEE1C9 !important;
+  animation: headShake; 
+  animation-duration: 1s;
+}
+
+.eight {
+  background-color: #f3b27a !important;
+  color:white;
+}
+
+.sixteen {
+  background-color: #f69664!important;
+  color:white;
+
+} 
+
+.thirty-two {
+  background-color: #f77c5f !important;
+  color:white;
+}
+
+.higher-numbers {
+  color:white;
+  background-color:#f75f3b !important;
+  border-radius: 6px  !important;
+
+}
+
+h1 {
+  font-size: 80px;
+  color:#776e65;
+  font-weight: bold;
+  flex:3;
+  align-self: center;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 50px;
+  }
+}
+
+.winner_message, .losing_message {
+  display: none;
+  position: fixed;
+  width: 500px;
+  height:400px;
+  animation: fadeInDown;
+  animation-duration: 2s;
+  background-color: rgba(0,0,0,0.6);
+  align-items: center;
+  align-items: center;
+  color:white;
+  border: 3px solid #776e65;
+
+}
+
+.winner_message div, .losing_message div {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin:0 auto;
+}
+
+.winner_message h2, .losing_message h2 {
+  text-align: center;
+  font-weight: lighter;
+  text-transform: uppercase;
+}
+
+
+
+.winner_message.show, .losing_message.show {
+  display: flex;
+}
+
+

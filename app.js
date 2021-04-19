@@ -3,18 +3,19 @@ const elements = {
   width: 4,
   cells: [],
   score: 0,
+  displayScore: document.getElementById('currentScore'),
   bestScore: 0,
   startGame: document.querySelector('.start_game'),
+  displayBestScore: document.querySelector('#bestScore'),
+  winningMsg: document.querySelector('.winner_message'),
+  losingMsg: document.querySelector('.losing_message'),
 }
 
-//create the 2048 board
-
+//create the Board
 for (let index = 0; index < elements.width ** 2; index++) {
   const div = document.createElement('div')
   elements.grid.appendChild(div)
 
-
-  //adding custom number to each grid cell
   div.setAttribute('gridnumber', index)
   div.style.width = `${100 / elements.width}%`
   div.style.height = `${100 / elements.width}%`
@@ -22,30 +23,42 @@ for (let index = 0; index < elements.width ** 2; index++) {
 }
 
 elements.startGame.addEventListener('click', () => {
-  //First set squares to null before playing 
+  elements.winningMsg.classList.remove('show')
+  elements.losingMsg.classList.remove('show')
+
+  //Reset board before next game
   elements.cells.forEach((grid) => {
     grid.classList.remove('Number')
+    grid.classList.remove('two')
+    grid.classList.remove('four')
+    grid.classList.remove('eight')
+    grid.classList.remove('sixteen')
+    grid.classList.remove('thirty-two')
+    grid.classList.remove('higher-numbers')
     grid.innerHTML = ''
   })
 
-  
-  //add condition for score and bestScore here
+  if (elements.score > 0 && elements.score > elements.bestScore) {
+    elements.bestScore = elements.score
+    elements.displayBestScore.innerHTML = elements.score
+  }
 
-  //should generate two random spots with 2 or 4 
+  elements.score = 0
+  elements.displayScore.innerHTML = 0
+
   randomSpotAndNumberGenerator(elements.width)
   randomSpotAndNumberGenerator(elements.width)
 })
 
-
 function randomSpotAndNumberGenerator(width) {
-  
+  //If all cells have innerHTML populated then stop game 
   const isEveryCellPopulated = elements.cells.every((cell) => cell.innerHTML > 0)
   if (isEveryCellPopulated) {
     return gameOver()     
   }
 
   //generate random number 2 or 4 from array
-  const twoOrFourArr = [2, 4]
+  const twoOrFourArr = [2,4]
   const randomIdx = Math.floor(Math.random() * twoOrFourArr.length)
   const twoOrFourNumber = twoOrFourArr[randomIdx]
   const randomNumberOnGrid = Math.floor(Math.random() * (width ** 2))
@@ -53,36 +66,31 @@ function randomSpotAndNumberGenerator(width) {
   if (elements.cells[randomNumberOnGrid].innerHTML === '') {
     elements.cells[randomNumberOnGrid].className = 'Number'
     elements.cells[randomNumberOnGrid].innerHTML = twoOrFourNumber
+    if (twoOrFourNumber === 2) {
+      elements.cells[randomNumberOnGrid].classList.add('two')
+    } else {
+      elements.cells[randomNumberOnGrid].classList.add('four')
+    }
   } else {
     randomSpotAndNumberGenerator(elements.width)
   }
-
 }
 
+//on arrow press 
 document.addEventListener('keydown', (event) => {
   const key = event.key
   if (key === 'ArrowDown') {
     moveGridsDownwards()
     randomSpotAndNumberGenerator(elements.width)
-
-    console.log('down pressed')
   } else if (key === 'ArrowUp') {
     moveGridsUpwards()
     randomSpotAndNumberGenerator(elements.width)
-
-    console.log('up pressed')
   } else if (key === 'ArrowLeft') {
-    console.log('left pressed')
     moveGridsLeft()
     randomSpotAndNumberGenerator(elements.width)
-
-
   } else if (key === 'ArrowRight') {
     moveGridsRight()
     randomSpotAndNumberGenerator(elements.width)
-
-    console.log('right pressed')
-
   }
 })
 
@@ -92,17 +100,14 @@ function moveGridsDownwards() {
   for (let i = 0; i < elements.width ** 2; i += elements.width) {
     firstColumn.push(Number(elements.cells[i].innerHTML))
   }
-
   // second column 
   for (let i = 1; i < elements.width ** 2; i += elements.width) {
     secondColumn.push(Number(elements.cells[i].innerHTML))
   }
-
   // third column 
   for (let i = 2; i < elements.width ** 2; i += elements.width) {
     thirdColumn.push(Number(elements.cells[i].innerHTML))
   }
-
   // fourth column 
   for (let i = 3; i < elements.width ** 2; i += elements.width) {
     fourthColumn.push(Number(elements.cells[i].innerHTML))
@@ -128,26 +133,26 @@ function moveGridsDownwards() {
   if (updatedFirstColArr[3] === updatedFirstColArr[2]) {
     updatedFirstColArr[3] = updatedFirstColArr[3] + updatedFirstColArr[2]
     updatedFirstColArr[2] = 0
-    elements.score += updatedFirstColArr[3]
-
+    elements.score += Number(updatedFirstColArr[3])
 
   }
+
 
   if (updatedFirstColArr[2] === updatedFirstColArr[1]) {
     updatedFirstColArr[2] = updatedFirstColArr[2] + updatedFirstColArr[1]
     updatedFirstColArr[1] = 0
-    elements.score += updatedFirstColArr[2]
-
-
+    elements.score += Number(updatedFirstColArr[2])
   }
+
 
   if (updatedFirstColArr[1] === updatedFirstColArr[0]) {
     updatedFirstColArr[1] = updatedFirstColArr[1] + updatedFirstColArr[0]
     updatedFirstColArr[0] = 0
-    elements.score += updatedFirstColArr[1]
-
-
+    elements.score += Number(updatedFirstColArr[1])
+   
   }
+
+  elements.displayScore.innerHTML = elements.score
 
   const ColumnAfterCombiningFirstCol = [updatedFirstColArr[0], updatedFirstColArr[1], updatedFirstColArr[2], updatedFirstColArr[3]]
 
@@ -158,15 +163,11 @@ function moveGridsDownwards() {
   missingIndexesInArray = 4 - firstColPostCombineFilter.length
 
   const finalSortedAndCombinedFirstCol = [...new Array(missingIndexesInArray).fill(0), ...firstColPostCombineFilter]
-  console.log(finalSortedAndCombinedFirstCol)
 
   elements.cells[0].innerHTML = finalSortedAndCombinedFirstCol[0]
   elements.cells[elements.width].innerHTML = finalSortedAndCombinedFirstCol[1]
   elements.cells[elements.width * 2].innerHTML = finalSortedAndCombinedFirstCol[2]
   elements.cells[elements.width * 3].innerHTML = finalSortedAndCombinedFirstCol[3]
-
-
-  //END OF COMBINE 1st COL
 
   const secondCol = secondColumn.filter((numb) => {
     return numb
@@ -180,21 +181,19 @@ function moveGridsDownwards() {
   elements.cells[1 + (elements.width * 2)].innerHTML = updatedSecondColArr[2]
   elements.cells[1 + (elements.width * 3)].innerHTML = updatedSecondColArr[3]
 
-
-
   //2ND COL COMBINER 
 
   if (updatedSecondColArr[3] === updatedSecondColArr[2]) {
     updatedSecondColArr[3] = updatedSecondColArr[3] + updatedSecondColArr[2]
     updatedSecondColArr[2] = 0
-    elements.score += updatedFirstColArr[3]
+    elements.score += Number(updatedSecondColArr[3])
 
   }
 
   if (updatedSecondColArr[2] === updatedSecondColArr[1]) {
     updatedSecondColArr[2] = updatedSecondColArr[2] + updatedSecondColArr[1]
     updatedSecondColArr[1] = 0
-    elements.score += updatedFirstColArr[2]
+    elements.score += Number(updatedSecondColArr[2])
 
 
   }
@@ -202,10 +201,11 @@ function moveGridsDownwards() {
   if (updatedSecondColArr[1] === updatedSecondColArr[0]) {
     updatedSecondColArr[1] = updatedSecondColArr[1] + updatedSecondColArr[0]
     updatedSecondColArr[0] = 0
-    elements.score += updatedFirstColArr[0]
+    elements.score += Number(updatedSecondColArr[1])
 
   }
 
+  elements.displayScore.innerHTML = elements.score
 
   const ColumnAfterCombiningSecondCol = [updatedSecondColArr[0], updatedSecondColArr[1], updatedSecondColArr[2], updatedSecondColArr[3]]
   const secondColPostCombineFilter = ColumnAfterCombiningSecondCol.filter((numb) => {
@@ -240,23 +240,25 @@ function moveGridsDownwards() {
   if (updatedThirdColArr[3] === updatedThirdColArr[2]) {
     updatedThirdColArr[3] = updatedThirdColArr[3] + updatedThirdColArr[2]
     updatedThirdColArr[2] = 0
-    elements.score += updatedFirstColArr[3]
+    elements.score += Number(updatedThirdColArr[3])
+
 
   }
 
   if (updatedThirdColArr[2] === updatedThirdColArr[1]) {
     updatedThirdColArr[2] = updatedThirdColArr[2] + updatedThirdColArr[1]
     updatedThirdColArr[1] = 0
-    elements.score += updatedFirstColArr[2]
+    elements.score += Number(updatedThirdColArr[2])
 
   }
 
   if (updatedThirdColArr[1] === updatedThirdColArr[0]) {
     updatedThirdColArr[1] = updatedThirdColArr[1] + updatedThirdColArr[0]
     updatedThirdColArr[0] = 0
-    elements.score += updatedFirstColArr[1]
-
+    elements.score += Number(updatedThirdColArr[1])
   }
+
+  elements.displayScore.innerHTML = elements.score
 
   const ColumnAfterCombiningThirdCol = [updatedThirdColArr[0], updatedThirdColArr[1], updatedThirdColArr[2], updatedThirdColArr[3]]
 
@@ -294,26 +296,26 @@ function moveGridsDownwards() {
   if (updatedFourthColArr[3] === updatedFourthColArr[2]) {
     updatedFourthColArr[3] = updatedFourthColArr[3] + updatedFourthColArr[2]
     updatedFourthColArr[2] = 0
-    elements.score += updatedFirstColArr[3]
+    elements.score += Number(updatedFourthColArr[3])
+
 
   }
 
   if (updatedFourthColArr[2] === updatedFourthColArr[1]) {
     updatedFourthColArr[2] = updatedFourthColArr[2] + updatedFourthColArr[1]
     updatedFourthColArr[1] = 0
-    elements.score += updatedFirstColArr[2]
-
+    elements.score += Number(updatedFourthColArr[2])
 
   }
 
   if (updatedFourthColArr[1] === updatedFourthColArr[0]) {
     updatedFourthColArr[1] = updatedFourthColArr[1] + updatedFourthColArr[0]
     updatedFourthColArr[0] = 0
-    elements.score += updatedFirstColArr[1]
-
+    elements.score += Number(updatedFourthColArr[1])
 
   }
 
+  elements.displayScore.innerHTML = elements.score
 
   const ColumnAfterCombining = [updatedFourthColArr[0], updatedFourthColArr[1], updatedFourthColArr[2], updatedFourthColArr[3]]
 
@@ -331,16 +333,9 @@ function moveGridsDownwards() {
   elements.cells[3 + (elements.width * 3)].innerHTML = FinalSortedAndCombinedCol[3]
   //END OF COMBINING CALCULATOR 
 
-  elements.cells.forEach((grid) => {
-    grid.classList.add('Number')
-    if (grid.innerHTML === '0') {
-      grid.innerHTML = ''
-    }
-  })
+  addNumbClass()
 
 }
-
-
 
 function moveGridsUpwards() {
 
@@ -383,18 +378,20 @@ function moveGridsUpwards() {
   if (updatedFirstColArr[1] === updatedFirstColArr[0]) {
     updatedFirstColArr[0] = updatedFirstColArr[1] + updatedFirstColArr[0]
     updatedFirstColArr[1] = 0
-    elements.score += updatedFirstColArr[0]
+    elements.score += Number(updatedFirstColArr[0])
   }
   if (updatedFirstColArr[2] === updatedFirstColArr[1]) {
     updatedFirstColArr[1] = updatedFirstColArr[2] + updatedFirstColArr[1]
     updatedFirstColArr[2] = 0
-    elements.score += updatedFirstColArr[1]
+    elements.score += Number(updatedFirstColArr[1])
   }
   if (updatedFirstColArr[3] === updatedFirstColArr[2]) {
     updatedFirstColArr[2] = updatedFirstColArr[3] + updatedFirstColArr[2]
     updatedFirstColArr[3] = 0
-    elements.score += updatedFirstColArr[2]
+    elements.score += Number(updatedFirstColArr[2])
   }
+
+  elements.displayScore.innerHTML = elements.score
 
   const ColumnAfterCombiningFirstCol = [updatedFirstColArr[0], updatedFirstColArr[1], updatedFirstColArr[2], updatedFirstColArr[3]]
 
@@ -427,17 +424,26 @@ function moveGridsUpwards() {
   if (updatedSecondColArr[1] === updatedSecondColArr[0]) {
     updatedSecondColArr[0] = updatedSecondColArr[1] + updatedSecondColArr[0]
     updatedSecondColArr[1] = 0
+    elements.score += Number(updatedSecondColArr[0])
+
   }
 
   if (updatedSecondColArr[2] === updatedSecondColArr[1]) {
     updatedSecondColArr[1] = updatedSecondColArr[2] + updatedSecondColArr[1]
     updatedSecondColArr[2] = 0
+    elements.score += Number(updatedSecondColArr[1])
+
   }
 
   if (updatedSecondColArr[3] === updatedSecondColArr[2]) {
     updatedSecondColArr[2] = updatedSecondColArr[3] + updatedSecondColArr[2]
     updatedSecondColArr[3] = 0
+    elements.score += Number(updatedSecondColArr[2])
+
   }
+
+  elements.displayScore.innerHTML = elements.score
+
 
   const ColumnAfterCombiningSecondCol = [updatedSecondColArr[0], updatedSecondColArr[1], updatedSecondColArr[2], updatedSecondColArr[3]]
 
@@ -472,17 +478,25 @@ function moveGridsUpwards() {
   if (updatedThirdColArr[1] === updatedThirdColArr[0]) {
     updatedThirdColArr[0] = updatedThirdColArr[1] + updatedThirdColArr[0]
     updatedThirdColArr[1] = 0
+    elements.score += Number(updatedThirdColArr[0])
+
   }
 
   if (updatedThirdColArr[2] === updatedThirdColArr[1]) {
     updatedThirdColArr[1] = updatedThirdColArr[2] + updatedThirdColArr[1]
     updatedThirdColArr[2] = 0
+    elements.score += Number(updatedThirdColArr[1])
+
   }
 
   if (updatedThirdColArr[3] === updatedThirdColArr[2]) {
     updatedThirdColArr[2] = updatedThirdColArr[3] + updatedThirdColArr[2]
     updatedThirdColArr[3] = 0
+    elements.score += Number(updatedThirdColArr[2])
+
   }
+  elements.displayScore.innerHTML = elements.score
+
 
   const ColumnAfterCombining = [updatedThirdColArr[0], updatedThirdColArr[1], updatedThirdColArr[2], updatedThirdColArr[3]]
   const thirdColPostCombineFilter = ColumnAfterCombining.filter((numb) => {
@@ -515,17 +529,26 @@ function moveGridsUpwards() {
   if (updatedFourthColArr[1] === updatedFourthColArr[0]) {
     updatedFourthColArr[0] = updatedFourthColArr[1] + updatedFourthColArr[0]
     updatedFourthColArr[1] = 0
+    elements.score += Number(updatedFourthColArr[0])
+
   }
 
   if (updatedFourthColArr[2] === updatedFourthColArr[1]) {
     updatedFourthColArr[1] = updatedFourthColArr[2] + updatedFourthColArr[1]
     updatedFourthColArr[2] = 0
+    elements.score += Number(updatedFourthColArr[1])
+
   }
 
   if (updatedFourthColArr[3] === updatedFourthColArr[2]) {
     updatedFourthColArr[2] = updatedFourthColArr[3] + updatedFourthColArr[2]
     updatedFourthColArr[3] = 0
+    elements.score += Number(updatedFourthColArr[2])
+
   }
+
+  elements.displayScore.innerHTML = elements.score
+
 
   const ColumnAfterCombiningForFourth = [updatedFourthColArr[0], updatedFourthColArr[1], updatedFourthColArr[2], updatedFourthColArr[3]]
 
@@ -542,14 +565,7 @@ function moveGridsUpwards() {
   elements.cells[3 + (elements.width * 3)].innerHTML = FinalSortedAndCombinedCol[3]
 
   //END OF COMBINING CALCULATOR 
-
-  elements.cells.forEach((grid) => {
-    grid.classList.add('Number')
-    if (grid.innerHTML === '0') {
-      grid.innerHTML = ''
-    }
-  })
-
+  addNumbClass()
 }
 
 function moveGridsLeft() {
@@ -593,17 +609,26 @@ function moveGridsLeft() {
   if (updatedFirstRowArr[1] === updatedFirstRowArr[0]) {
     updatedFirstRowArr[0] = updatedFirstRowArr[1] + updatedFirstRowArr[0]
     updatedFirstRowArr[1] = 0
+    elements.score += Number(updatedFirstRowArr[0])
+
   }
 
   if (updatedFirstRowArr[2] === updatedFirstRowArr[1]) {
     updatedFirstRowArr[1] = updatedFirstRowArr[2] + updatedFirstRowArr[1]
     updatedFirstRowArr[2] = 0
+    elements.score += Number(updatedFirstRowArr[1])
+
   }
 
   if (updatedFirstRowArr[3] === updatedFirstRowArr[2]) {
     updatedFirstRowArr[2] = updatedFirstRowArr[3] + updatedFirstRowArr[2]
     updatedFirstRowArr[3] = 0
+    elements.score += Number(updatedFirstRowArr[2])
+
   }
+
+  elements.displayScore.innerHTML = elements.score
+
 
   const firstRowAfterCombining = [updatedFirstRowArr[0], updatedFirstRowArr[1], updatedFirstRowArr[2], updatedFirstRowArr[3]]
 
@@ -635,17 +660,24 @@ function moveGridsLeft() {
   if (updatedSecondRowArr[1] === updatedSecondRowArr[0]) {
     updatedSecondRowArr[0] = updatedSecondRowArr[1] + updatedSecondRowArr[0]
     updatedSecondRowArr[1] = 0
+    elements.score += Number(updatedSecondRowArr[0])
+
   }
 
   if (updatedSecondRowArr[2] === updatedSecondRowArr[1]) {
     updatedSecondRowArr[1] = updatedSecondRowArr[2] + updatedSecondRowArr[1]
     updatedSecondRowArr[2] = 0
+    elements.score += Number(updatedSecondRowArr[1])
+
   }
 
   if (updatedSecondRowArr[3] === updatedSecondRowArr[2]) {
     updatedSecondRowArr[2] = updatedSecondRowArr[3] + updatedSecondRowArr[2]
     updatedSecondRowArr[3] = 0
+    elements.score += Number(updatedSecondRowArr[2])
+
   }
+  elements.displayScore.innerHTML = elements.score
 
   const secondRowAfterCombining = [updatedSecondRowArr[0], updatedSecondRowArr[1], updatedSecondRowArr[2], updatedSecondRowArr[3]]
   const secondRowPostCombineFilter = secondRowAfterCombining.filter((numb) => {
@@ -677,17 +709,25 @@ function moveGridsLeft() {
   if (updatedThirdRowArr[1] === updatedThirdRowArr[0]) {
     updatedThirdRowArr[0] = updatedThirdRowArr[1] + updatedThirdRowArr[0]
     updatedThirdRowArr[1] = 0
+    elements.score += Number(updatedThirdRowArr[0])
+
   }
 
   if (updatedThirdRowArr[2] === updatedThirdRowArr[1]) {
     updatedThirdRowArr[1] = updatedThirdRowArr[2] + updatedThirdRowArr[1]
     updatedThirdRowArr[2] = 0
+
+    elements.score += Number(updatedThirdRowArr[1])
   }
 
   if (updatedThirdRowArr[3] === updatedThirdRowArr[2]) {
     updatedThirdRowArr[2] = updatedThirdRowArr[3] + updatedThirdRowArr[2]
     updatedThirdRowArr[3] = 0
+    elements.score += Number(updatedThirdRowArr[2])
+
   }
+  elements.displayScore.innerHTML = elements.score
+
   const thirdRowAfterCombining = [updatedThirdRowArr[0], updatedThirdRowArr[1], updatedThirdRowArr[2], updatedThirdRowArr[3]]
 
   const thirdRowPostCombineFilter = thirdRowAfterCombining.filter((numb) => {
@@ -720,17 +760,24 @@ function moveGridsLeft() {
   if (updatedFourthRowArr[1] === updatedFourthRowArr[0]) {
     updatedFourthRowArr[0] = updatedFourthRowArr[1] + updatedFourthRowArr[0]
     updatedFourthRowArr[1] = 0
+    elements.score += Number(updatedFourthRowArr[0])
+
   }
 
   if (updatedFourthRowArr[2] === updatedFourthRowArr[1]) {
     updatedFourthRowArr[1] = updatedFourthRowArr[2] + updatedFourthRowArr[1]
     updatedFourthRowArr[2] = 0
+    elements.score += Number(updatedFourthRowArr[1])
+
   }
 
   if (updatedFourthRowArr[3] === updatedFourthRowArr[2]) {
     updatedFourthRowArr[2] = updatedFourthRowArr[3] + updatedFourthRowArr[2]
     updatedFourthRowArr[3] = 0
+    elements.score += Number(updatedFourthRowArr[2])
+
   }
+  elements.displayScore.innerHTML = elements.score
 
   const fourthRowAfterCombining = [updatedFourthRowArr[0], updatedFourthRowArr[1], updatedFourthRowArr[2], updatedFourthRowArr[3]]
 
@@ -748,13 +795,7 @@ function moveGridsLeft() {
   elements.cells[15].innerHTML = FinalSortedAndCombinedFourthRow[3]
 
   //END OF COMBINING CALCULATOR -4th ROW
-
-  elements.cells.forEach((grid) => {
-    grid.classList.add('Number')
-    if (grid.innerHTML === '0') {
-      grid.innerHTML = ''
-    }
-  })
+  addNumbClass()
 }
 
 function moveGridsRight() {
@@ -798,18 +839,24 @@ function moveGridsRight() {
   if (updatedFirstRowArr[3] === updatedFirstRowArr[2]) {
     updatedFirstRowArr[3] = updatedFirstRowArr[3] + updatedFirstRowArr[2]
     updatedFirstRowArr[2] = 0
+    elements.score += Number(updatedFirstRowArr[3])
+
   }
 
   if (updatedFirstRowArr[2] === updatedFirstRowArr[1]) {
     updatedFirstRowArr[2] = updatedFirstRowArr[2] + updatedFirstRowArr[1]
     updatedFirstRowArr[1] = 0
+    elements.score += Number(updatedFirstRowArr[2])
+
   }
 
   if (updatedFirstRowArr[1] === updatedFirstRowArr[0]) {
     updatedFirstRowArr[1] = updatedFirstRowArr[1] + updatedFirstRowArr[0]
     updatedFirstRowArr[0] = 0
+    elements.score += Number(updatedFirstRowArr[1])
 
   }
+  elements.displayScore.innerHTML = elements.score
 
   const firstRowAfterCombining = [updatedFirstRowArr[0], updatedFirstRowArr[1], updatedFirstRowArr[2], updatedFirstRowArr[3]]
 
@@ -844,17 +891,24 @@ function moveGridsRight() {
   if (updatedSecondRowArr[3] === updatedSecondRowArr[2]) {
     updatedSecondRowArr[3] = updatedSecondRowArr[3] + updatedSecondRowArr[2]
     updatedSecondRowArr[2] = 0
+    elements.score += Number(updatedSecondRowArr[3])
+
   }
 
   if (updatedSecondRowArr[2] === updatedSecondRowArr[1]) {
     updatedSecondRowArr[2] = updatedSecondRowArr[2] + updatedSecondRowArr[1]
     updatedSecondRowArr[1] = 0
+    elements.score += Number(updatedSecondRowArr[2])
+
   }
 
   if (updatedSecondRowArr[1] === updatedSecondRowArr[0]) {
     updatedSecondRowArr[1] = updatedSecondRowArr[1] + updatedSecondRowArr[0]
     updatedSecondRowArr[0] = 0
+    elements.score += Number(updatedSecondRowArr[1])
+
   }
+  elements.displayScore.innerHTML = elements.score
 
   const secondRowAfterCombining = [updatedSecondRowArr[0], updatedSecondRowArr[1], updatedSecondRowArr[2], updatedSecondRowArr[3]]
 
@@ -889,17 +943,24 @@ function moveGridsRight() {
   if (updatedThirdRowArr[3] === updatedThirdRowArr[2]) {
     updatedThirdRowArr[3] = updatedThirdRowArr[3] + updatedThirdRowArr[2]
     updatedThirdRowArr[2] = 0
+    elements.score += Number(updatedThirdRowArr[3])
+
   }
 
   if (updatedThirdRowArr[2] === updatedThirdRowArr[1]) {
     updatedThirdRowArr[2] = updatedThirdRowArr[2] + updatedThirdRowArr[1]
     updatedThirdRowArr[1] = 0
+    elements.score += Number(updatedThirdRowArr[2])
+
   }
 
   if (updatedThirdRowArr[1] === updatedThirdRowArr[0]) {
     updatedThirdRowArr[1] = updatedThirdRowArr[1] + updatedThirdRowArr[0]
     updatedThirdRowArr[0] = 0
+    elements.score += Number(updatedThirdRowArr[1])
+
   }
+  elements.displayScore.innerHTML = elements.score
 
   const thirdRowAfterCombining = [updatedThirdRowArr[0], updatedThirdRowArr[1], updatedThirdRowArr[2], updatedThirdRowArr[3]]
 
@@ -934,18 +995,27 @@ function moveGridsRight() {
   if (updatedFourthRowArr[3] === updatedFourthRowArr[2]) {
     updatedFourthRowArr[3] = updatedFourthRowArr[3] + updatedFourthRowArr[2]
     updatedFourthRowArr[2] = 0
+    elements.score += Number(updatedFourthRowArr[3])
+
   }
 
 
   if (updatedFourthRowArr[2] === updatedFourthRowArr[1]) {
     updatedFourthRowArr[2] = updatedFourthRowArr[2] + updatedFourthRowArr[1]
     updatedFourthRowArr[1] = 0
+    elements.score += Number(updatedFourthRowArr[2])
+
   }
 
   if (updatedFourthRowArr[1] === updatedFourthRowArr[0]) {
     updatedFourthRowArr[1] = updatedFourthRowArr[1] + updatedFourthRowArr[0]
     updatedFourthRowArr[0] = 0
+    elements.score += Number(updatedFourthRowArr[1])
+
   }
+
+  elements.displayScore.innerHTML = elements.score
+
 
   const fourthRowAfterCombining = [updatedFourthRowArr[0], updatedFourthRowArr[1], updatedFourthRowArr[2], updatedFourthRowArr[3]]
   const fourthRowPostCombineFilter = fourthRowAfterCombining.filter((numb) => {
@@ -960,16 +1030,55 @@ function moveGridsRight() {
   elements.cells[14].innerHTML = FinalSortedAndCombinedFourthRow[2]
   elements.cells[15].innerHTML = FinalSortedAndCombinedFourthRow[3]
 
-  //END OF COMBINING CALCULATOR -4th ROW
-
-  elements.cells.forEach((grid) => {
-    grid.classList.add('Number')
-    if (grid.innerHTML === '0') {
-      grid.innerHTML = ''
-    }
-  })
+  addNumbClass()
 }
 
 function gameOver() {
-  alert('GAME OVER')
+  elements.losingMsg.classList.add('show')
 }
+
+function addNumbClass(){
+  elements.cells.forEach((grid) => {
+    if (grid.innerHTML === '2048') {
+      elements.winningMsg.classList.add('show')
+    }
+
+    grid.classList.remove('two')
+    grid.classList.remove('four')
+    grid.classList.remove('eight')
+    grid.classList.remove('sixteen')
+    grid.classList.remove('thirty-two')
+    grid.classList.remove('higher-numbers')
+
+    grid.classList.add('Number')
+    if (grid.innerHTML === '0') {
+      grid.classList.remove('two')
+      grid.classList.remove('four')
+      grid.classList.remove('eight')
+      grid.classList.remove('sixteen')
+      grid.classList.remove('thirty-two')
+      grid.classList.remove('higher-numbers')
+
+
+      grid.innerHTML = ''
+    } else if (grid.innerHTML === '2') {
+      grid.classList.add('two')
+    } else if (grid.innerHTML === '4') {
+      grid.classList.add('four')
+    } else if (grid.innerHTML === '8') {
+      grid.classList.add('eight')
+    } else if (grid.innerHTML === '16') {
+      grid.classList.add('sixteen')
+    } else if (grid.innerHTML === '32') {
+      grid.classList.add('thirty-two')
+
+    } else  {
+      grid.classList.add('higher-numbers')
+
+    }
+
+    
+  })
+}
+
+
