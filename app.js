@@ -94,6 +94,32 @@ document.addEventListener('keydown', (event) => {
   }
 })
 
+function numberMergeCalculate(startIndexNumber, arrCol) {
+  if (startIndexNumber === 3) {
+    console.log('COMBINING')
+    while (startIndexNumber >= 0) {
+      if (arrCol[startIndexNumber] === arrCol[startIndexNumber - 1]) {
+        arrCol[startIndexNumber] += arrCol[startIndexNumber - 1]
+        arrCol[startIndexNumber - 1] = 0
+        elements.score += Number(arrCol[startIndexNumber])
+      }
+      startIndexNumber--
+    }
+  } else if (startIndexNumber === 0) {
+    console.log('FOR UPWARD AND LEFT ONLY')
+
+    while (startIndexNumber < 3) {
+      if (arrCol[startIndexNumber + 1] === arrCol[startIndexNumber]) {
+        arrCol[startIndexNumber] += arrCol[startIndexNumber + 1]
+        arrCol[startIndexNumber + 1] = 0
+        elements.score += Number(arrCol[startIndexNumber])
+      }
+      startIndexNumber++
+    }
+  }
+  
+}
+
 function moveGridsDownwards() {
   const firstColumn = [], secondColumn = [], thirdColumn = [], fourthColumn = []
   //First column 
@@ -128,29 +154,8 @@ function moveGridsDownwards() {
     updatedFirstColIdx++
   }
 
-  //Checks if any are the same
-
-  if (updatedFirstColArr[3] === updatedFirstColArr[2]) {
-    updatedFirstColArr[3] = updatedFirstColArr[3] + updatedFirstColArr[2]
-    updatedFirstColArr[2] = 0
-    elements.score += Number(updatedFirstColArr[3])
-
-  }
-
-
-  if (updatedFirstColArr[2] === updatedFirstColArr[1]) {
-    updatedFirstColArr[2] = updatedFirstColArr[2] + updatedFirstColArr[1]
-    updatedFirstColArr[1] = 0
-    elements.score += Number(updatedFirstColArr[2])
-  }
-
-
-  if (updatedFirstColArr[1] === updatedFirstColArr[0]) {
-    updatedFirstColArr[1] = updatedFirstColArr[1] + updatedFirstColArr[0]
-    updatedFirstColArr[0] = 0
-    elements.score += Number(updatedFirstColArr[1])
-   
-  }
+  //Call function to merge combining columns
+  numberMergeCalculate(3, updatedFirstColArr)
 
   elements.displayScore.innerHTML = elements.score
 
@@ -181,29 +186,8 @@ function moveGridsDownwards() {
   elements.cells[1 + (elements.width * 2)].innerHTML = updatedSecondColArr[2]
   elements.cells[1 + (elements.width * 3)].innerHTML = updatedSecondColArr[3]
 
-  //2ND COL COMBINER 
-
-  if (updatedSecondColArr[3] === updatedSecondColArr[2]) {
-    updatedSecondColArr[3] = updatedSecondColArr[3] + updatedSecondColArr[2]
-    updatedSecondColArr[2] = 0
-    elements.score += Number(updatedSecondColArr[3])
-
-  }
-
-  if (updatedSecondColArr[2] === updatedSecondColArr[1]) {
-    updatedSecondColArr[2] = updatedSecondColArr[2] + updatedSecondColArr[1]
-    updatedSecondColArr[1] = 0
-    elements.score += Number(updatedSecondColArr[2])
-
-
-  }
-
-  if (updatedSecondColArr[1] === updatedSecondColArr[0]) {
-    updatedSecondColArr[1] = updatedSecondColArr[1] + updatedSecondColArr[0]
-    updatedSecondColArr[0] = 0
-    elements.score += Number(updatedSecondColArr[1])
-
-  }
+  //Call function to merge combining columns
+  numberMergeCalculate(3, updatedSecondColArr)
 
   elements.displayScore.innerHTML = elements.score
 
@@ -234,29 +218,8 @@ function moveGridsDownwards() {
   elements.cells[2 + (elements.width * 2)].innerHTML = updatedThirdColArr[2]
   elements.cells[2 + (elements.width * 3)].innerHTML = updatedThirdColArr[3]
 
-
-  //THIRD COL COMBINER 
-
-  if (updatedThirdColArr[3] === updatedThirdColArr[2]) {
-    updatedThirdColArr[3] = updatedThirdColArr[3] + updatedThirdColArr[2]
-    updatedThirdColArr[2] = 0
-    elements.score += Number(updatedThirdColArr[3])
-
-
-  }
-
-  if (updatedThirdColArr[2] === updatedThirdColArr[1]) {
-    updatedThirdColArr[2] = updatedThirdColArr[2] + updatedThirdColArr[1]
-    updatedThirdColArr[1] = 0
-    elements.score += Number(updatedThirdColArr[2])
-
-  }
-
-  if (updatedThirdColArr[1] === updatedThirdColArr[0]) {
-    updatedThirdColArr[1] = updatedThirdColArr[1] + updatedThirdColArr[0]
-    updatedThirdColArr[0] = 0
-    elements.score += Number(updatedThirdColArr[1])
-  }
+  //Call function to merge combining columns
+  numberMergeCalculate(3, updatedThirdColArr)
 
   elements.displayScore.innerHTML = elements.score
 
@@ -290,30 +253,9 @@ function moveGridsDownwards() {
   elements.cells[3 + (elements.width * 2)].innerHTML = updatedFourthColArr[2]
   elements.cells[3 + (elements.width * 3)].innerHTML = updatedFourthColArr[3]
 
+  //Call function to merge combining columns
+  numberMergeCalculate(3, updatedFourthColArr)
 
-  //COMBINING CALCULATION -- COL 4
-
-  if (updatedFourthColArr[3] === updatedFourthColArr[2]) {
-    updatedFourthColArr[3] = updatedFourthColArr[3] + updatedFourthColArr[2]
-    updatedFourthColArr[2] = 0
-    elements.score += Number(updatedFourthColArr[3])
-
-
-  }
-
-  if (updatedFourthColArr[2] === updatedFourthColArr[1]) {
-    updatedFourthColArr[2] = updatedFourthColArr[2] + updatedFourthColArr[1]
-    updatedFourthColArr[1] = 0
-    elements.score += Number(updatedFourthColArr[2])
-
-  }
-
-  if (updatedFourthColArr[1] === updatedFourthColArr[0]) {
-    updatedFourthColArr[1] = updatedFourthColArr[1] + updatedFourthColArr[0]
-    updatedFourthColArr[0] = 0
-    elements.score += Number(updatedFourthColArr[1])
-
-  }
 
   elements.displayScore.innerHTML = elements.score
 
@@ -374,22 +316,8 @@ function moveGridsUpwards() {
   elements.cells[elements.width * 2].innerHTML = updatedFirstColArr[2]
   elements.cells[elements.width * 3].innerHTML = updatedFirstColArr[3]
 
-  //COMBINER FOR COL 2
-  if (updatedFirstColArr[1] === updatedFirstColArr[0]) {
-    updatedFirstColArr[0] = updatedFirstColArr[1] + updatedFirstColArr[0]
-    updatedFirstColArr[1] = 0
-    elements.score += Number(updatedFirstColArr[0])
-  }
-  if (updatedFirstColArr[2] === updatedFirstColArr[1]) {
-    updatedFirstColArr[1] = updatedFirstColArr[2] + updatedFirstColArr[1]
-    updatedFirstColArr[2] = 0
-    elements.score += Number(updatedFirstColArr[1])
-  }
-  if (updatedFirstColArr[3] === updatedFirstColArr[2]) {
-    updatedFirstColArr[2] = updatedFirstColArr[3] + updatedFirstColArr[2]
-    updatedFirstColArr[3] = 0
-    elements.score += Number(updatedFirstColArr[2])
-  }
+  numberMergeCalculate(0, updatedFirstColArr)
+
 
   elements.displayScore.innerHTML = elements.score
 
@@ -420,27 +348,8 @@ function moveGridsUpwards() {
   elements.cells[1 + (elements.width * 2)].innerHTML = updatedSecondColArr[2]
   elements.cells[1 + (elements.width * 3)].innerHTML = updatedSecondColArr[3]
 
-  //COMBINER FOR COL 2
-  if (updatedSecondColArr[1] === updatedSecondColArr[0]) {
-    updatedSecondColArr[0] = updatedSecondColArr[1] + updatedSecondColArr[0]
-    updatedSecondColArr[1] = 0
-    elements.score += Number(updatedSecondColArr[0])
+  numberMergeCalculate(0, updatedSecondColArr)
 
-  }
-
-  if (updatedSecondColArr[2] === updatedSecondColArr[1]) {
-    updatedSecondColArr[1] = updatedSecondColArr[2] + updatedSecondColArr[1]
-    updatedSecondColArr[2] = 0
-    elements.score += Number(updatedSecondColArr[1])
-
-  }
-
-  if (updatedSecondColArr[3] === updatedSecondColArr[2]) {
-    updatedSecondColArr[2] = updatedSecondColArr[3] + updatedSecondColArr[2]
-    updatedSecondColArr[3] = 0
-    elements.score += Number(updatedSecondColArr[2])
-
-  }
 
   elements.displayScore.innerHTML = elements.score
 
@@ -473,28 +382,8 @@ function moveGridsUpwards() {
   elements.cells[2 + (elements.width * 2)].innerHTML = updatedThirdColArr[2]
   elements.cells[2 + (elements.width * 3)].innerHTML = updatedThirdColArr[3]
 
+  numberMergeCalculate(0, updatedThirdColArr)
 
-  //COMBINER FOR COL 3
-  if (updatedThirdColArr[1] === updatedThirdColArr[0]) {
-    updatedThirdColArr[0] = updatedThirdColArr[1] + updatedThirdColArr[0]
-    updatedThirdColArr[1] = 0
-    elements.score += Number(updatedThirdColArr[0])
-
-  }
-
-  if (updatedThirdColArr[2] === updatedThirdColArr[1]) {
-    updatedThirdColArr[1] = updatedThirdColArr[2] + updatedThirdColArr[1]
-    updatedThirdColArr[2] = 0
-    elements.score += Number(updatedThirdColArr[1])
-
-  }
-
-  if (updatedThirdColArr[3] === updatedThirdColArr[2]) {
-    updatedThirdColArr[2] = updatedThirdColArr[3] + updatedThirdColArr[2]
-    updatedThirdColArr[3] = 0
-    elements.score += Number(updatedThirdColArr[2])
-
-  }
   elements.displayScore.innerHTML = elements.score
 
 
@@ -524,28 +413,7 @@ function moveGridsUpwards() {
   elements.cells[3 + (elements.width * 2)].innerHTML = updatedFourthColArr[2]
   elements.cells[3 + (elements.width * 3)].innerHTML = updatedFourthColArr[3]
 
-
-  //ADDING CODE FOR THE COMBINING CALCULATION -- COL 4
-  if (updatedFourthColArr[1] === updatedFourthColArr[0]) {
-    updatedFourthColArr[0] = updatedFourthColArr[1] + updatedFourthColArr[0]
-    updatedFourthColArr[1] = 0
-    elements.score += Number(updatedFourthColArr[0])
-
-  }
-
-  if (updatedFourthColArr[2] === updatedFourthColArr[1]) {
-    updatedFourthColArr[1] = updatedFourthColArr[2] + updatedFourthColArr[1]
-    updatedFourthColArr[2] = 0
-    elements.score += Number(updatedFourthColArr[1])
-
-  }
-
-  if (updatedFourthColArr[3] === updatedFourthColArr[2]) {
-    updatedFourthColArr[2] = updatedFourthColArr[3] + updatedFourthColArr[2]
-    updatedFourthColArr[3] = 0
-    elements.score += Number(updatedFourthColArr[2])
-
-  }
+  numberMergeCalculate(0, updatedFourthColArr)
 
   elements.displayScore.innerHTML = elements.score
 
@@ -605,27 +473,7 @@ function moveGridsLeft() {
   elements.cells[2].innerHTML = updatedFirstRowArr[2]
   elements.cells[3].innerHTML = updatedFirstRowArr[3]
 
-  //COMBINER FOR FIRST ROW LEFT
-  if (updatedFirstRowArr[1] === updatedFirstRowArr[0]) {
-    updatedFirstRowArr[0] = updatedFirstRowArr[1] + updatedFirstRowArr[0]
-    updatedFirstRowArr[1] = 0
-    elements.score += Number(updatedFirstRowArr[0])
-
-  }
-
-  if (updatedFirstRowArr[2] === updatedFirstRowArr[1]) {
-    updatedFirstRowArr[1] = updatedFirstRowArr[2] + updatedFirstRowArr[1]
-    updatedFirstRowArr[2] = 0
-    elements.score += Number(updatedFirstRowArr[1])
-
-  }
-
-  if (updatedFirstRowArr[3] === updatedFirstRowArr[2]) {
-    updatedFirstRowArr[2] = updatedFirstRowArr[3] + updatedFirstRowArr[2]
-    updatedFirstRowArr[3] = 0
-    elements.score += Number(updatedFirstRowArr[2])
-
-  }
+  numberMergeCalculate(0, updatedFirstRowArr)
 
   elements.displayScore.innerHTML = elements.score
 
@@ -656,27 +504,8 @@ function moveGridsLeft() {
   elements.cells[6].innerHTML = updatedSecondRowArr[2]
   elements.cells[7].innerHTML = updatedSecondRowArr[3]
 
-  //COMBINER FOR 2nd ROW 
-  if (updatedSecondRowArr[1] === updatedSecondRowArr[0]) {
-    updatedSecondRowArr[0] = updatedSecondRowArr[1] + updatedSecondRowArr[0]
-    updatedSecondRowArr[1] = 0
-    elements.score += Number(updatedSecondRowArr[0])
+  numberMergeCalculate(0, updatedSecondRowArr)
 
-  }
-
-  if (updatedSecondRowArr[2] === updatedSecondRowArr[1]) {
-    updatedSecondRowArr[1] = updatedSecondRowArr[2] + updatedSecondRowArr[1]
-    updatedSecondRowArr[2] = 0
-    elements.score += Number(updatedSecondRowArr[1])
-
-  }
-
-  if (updatedSecondRowArr[3] === updatedSecondRowArr[2]) {
-    updatedSecondRowArr[2] = updatedSecondRowArr[3] + updatedSecondRowArr[2]
-    updatedSecondRowArr[3] = 0
-    elements.score += Number(updatedSecondRowArr[2])
-
-  }
   elements.displayScore.innerHTML = elements.score
 
   const secondRowAfterCombining = [updatedSecondRowArr[0], updatedSecondRowArr[1], updatedSecondRowArr[2], updatedSecondRowArr[3]]
@@ -705,27 +534,8 @@ function moveGridsLeft() {
   elements.cells[10].innerHTML = updatedThirdRowArr[2]
   elements.cells[11].innerHTML = updatedThirdRowArr[3]
 
-  //COMBINER FOR 3rd ROW 
-  if (updatedThirdRowArr[1] === updatedThirdRowArr[0]) {
-    updatedThirdRowArr[0] = updatedThirdRowArr[1] + updatedThirdRowArr[0]
-    updatedThirdRowArr[1] = 0
-    elements.score += Number(updatedThirdRowArr[0])
+  numberMergeCalculate(0, updatedThirdRowArr)
 
-  }
-
-  if (updatedThirdRowArr[2] === updatedThirdRowArr[1]) {
-    updatedThirdRowArr[1] = updatedThirdRowArr[2] + updatedThirdRowArr[1]
-    updatedThirdRowArr[2] = 0
-
-    elements.score += Number(updatedThirdRowArr[1])
-  }
-
-  if (updatedThirdRowArr[3] === updatedThirdRowArr[2]) {
-    updatedThirdRowArr[2] = updatedThirdRowArr[3] + updatedThirdRowArr[2]
-    updatedThirdRowArr[3] = 0
-    elements.score += Number(updatedThirdRowArr[2])
-
-  }
   elements.displayScore.innerHTML = elements.score
 
   const thirdRowAfterCombining = [updatedThirdRowArr[0], updatedThirdRowArr[1], updatedThirdRowArr[2], updatedThirdRowArr[3]]
@@ -756,27 +566,8 @@ function moveGridsLeft() {
   elements.cells[14].innerHTML = updatedFourthRowArr[2]
   elements.cells[15].innerHTML = updatedFourthRowArr[3]
 
-  //COMBINER FOR 4th ROW 
-  if (updatedFourthRowArr[1] === updatedFourthRowArr[0]) {
-    updatedFourthRowArr[0] = updatedFourthRowArr[1] + updatedFourthRowArr[0]
-    updatedFourthRowArr[1] = 0
-    elements.score += Number(updatedFourthRowArr[0])
+  numberMergeCalculate(0, updatedFourthRowArr)
 
-  }
-
-  if (updatedFourthRowArr[2] === updatedFourthRowArr[1]) {
-    updatedFourthRowArr[1] = updatedFourthRowArr[2] + updatedFourthRowArr[1]
-    updatedFourthRowArr[2] = 0
-    elements.score += Number(updatedFourthRowArr[1])
-
-  }
-
-  if (updatedFourthRowArr[3] === updatedFourthRowArr[2]) {
-    updatedFourthRowArr[2] = updatedFourthRowArr[3] + updatedFourthRowArr[2]
-    updatedFourthRowArr[3] = 0
-    elements.score += Number(updatedFourthRowArr[2])
-
-  }
   elements.displayScore.innerHTML = elements.score
 
   const fourthRowAfterCombining = [updatedFourthRowArr[0], updatedFourthRowArr[1], updatedFourthRowArr[2], updatedFourthRowArr[3]]
@@ -836,26 +627,8 @@ function moveGridsRight() {
   elements.cells[3].innerHTML = updatedFirstRowArr[3]
 
   //COMBINER FOR FIRST ROW 
-  if (updatedFirstRowArr[3] === updatedFirstRowArr[2]) {
-    updatedFirstRowArr[3] = updatedFirstRowArr[3] + updatedFirstRowArr[2]
-    updatedFirstRowArr[2] = 0
-    elements.score += Number(updatedFirstRowArr[3])
+  numberMergeCalculate(3, updatedFirstRowArr)
 
-  }
-
-  if (updatedFirstRowArr[2] === updatedFirstRowArr[1]) {
-    updatedFirstRowArr[2] = updatedFirstRowArr[2] + updatedFirstRowArr[1]
-    updatedFirstRowArr[1] = 0
-    elements.score += Number(updatedFirstRowArr[2])
-
-  }
-
-  if (updatedFirstRowArr[1] === updatedFirstRowArr[0]) {
-    updatedFirstRowArr[1] = updatedFirstRowArr[1] + updatedFirstRowArr[0]
-    updatedFirstRowArr[0] = 0
-    elements.score += Number(updatedFirstRowArr[1])
-
-  }
   elements.displayScore.innerHTML = elements.score
 
   const firstRowAfterCombining = [updatedFirstRowArr[0], updatedFirstRowArr[1], updatedFirstRowArr[2], updatedFirstRowArr[3]]
@@ -888,26 +661,8 @@ function moveGridsRight() {
   elements.cells[7].innerHTML = updatedSecondRowArr[3]
 
   //COMBINER FOR 2nd ROW 
-  if (updatedSecondRowArr[3] === updatedSecondRowArr[2]) {
-    updatedSecondRowArr[3] = updatedSecondRowArr[3] + updatedSecondRowArr[2]
-    updatedSecondRowArr[2] = 0
-    elements.score += Number(updatedSecondRowArr[3])
+  numberMergeCalculate(3, updatedSecondRowArr)
 
-  }
-
-  if (updatedSecondRowArr[2] === updatedSecondRowArr[1]) {
-    updatedSecondRowArr[2] = updatedSecondRowArr[2] + updatedSecondRowArr[1]
-    updatedSecondRowArr[1] = 0
-    elements.score += Number(updatedSecondRowArr[2])
-
-  }
-
-  if (updatedSecondRowArr[1] === updatedSecondRowArr[0]) {
-    updatedSecondRowArr[1] = updatedSecondRowArr[1] + updatedSecondRowArr[0]
-    updatedSecondRowArr[0] = 0
-    elements.score += Number(updatedSecondRowArr[1])
-
-  }
   elements.displayScore.innerHTML = elements.score
 
   const secondRowAfterCombining = [updatedSecondRowArr[0], updatedSecondRowArr[1], updatedSecondRowArr[2], updatedSecondRowArr[3]]
@@ -937,29 +692,8 @@ function moveGridsRight() {
   elements.cells[10].innerHTML = updatedThirdRowArr[2]
   elements.cells[11].innerHTML = updatedThirdRowArr[3]
 
+  numberMergeCalculate(3, updatedThirdRowArr)
 
-
-  //COMBINER FOR 3rd ROW 
-  if (updatedThirdRowArr[3] === updatedThirdRowArr[2]) {
-    updatedThirdRowArr[3] = updatedThirdRowArr[3] + updatedThirdRowArr[2]
-    updatedThirdRowArr[2] = 0
-    elements.score += Number(updatedThirdRowArr[3])
-
-  }
-
-  if (updatedThirdRowArr[2] === updatedThirdRowArr[1]) {
-    updatedThirdRowArr[2] = updatedThirdRowArr[2] + updatedThirdRowArr[1]
-    updatedThirdRowArr[1] = 0
-    elements.score += Number(updatedThirdRowArr[2])
-
-  }
-
-  if (updatedThirdRowArr[1] === updatedThirdRowArr[0]) {
-    updatedThirdRowArr[1] = updatedThirdRowArr[1] + updatedThirdRowArr[0]
-    updatedThirdRowArr[0] = 0
-    elements.score += Number(updatedThirdRowArr[1])
-
-  }
   elements.displayScore.innerHTML = elements.score
 
   const thirdRowAfterCombining = [updatedThirdRowArr[0], updatedThirdRowArr[1], updatedThirdRowArr[2], updatedThirdRowArr[3]]
@@ -991,28 +725,8 @@ function moveGridsRight() {
   elements.cells[15].innerHTML = updatedFourthRowArr[3]
 
   //COMBINER FOR 4th ROW 
+  numberMergeCalculate(3, updatedFourthRowArr)
 
-  if (updatedFourthRowArr[3] === updatedFourthRowArr[2]) {
-    updatedFourthRowArr[3] = updatedFourthRowArr[3] + updatedFourthRowArr[2]
-    updatedFourthRowArr[2] = 0
-    elements.score += Number(updatedFourthRowArr[3])
-
-  }
-
-
-  if (updatedFourthRowArr[2] === updatedFourthRowArr[1]) {
-    updatedFourthRowArr[2] = updatedFourthRowArr[2] + updatedFourthRowArr[1]
-    updatedFourthRowArr[1] = 0
-    elements.score += Number(updatedFourthRowArr[2])
-
-  }
-
-  if (updatedFourthRowArr[1] === updatedFourthRowArr[0]) {
-    updatedFourthRowArr[1] = updatedFourthRowArr[1] + updatedFourthRowArr[0]
-    updatedFourthRowArr[0] = 0
-    elements.score += Number(updatedFourthRowArr[1])
-
-  }
 
   elements.displayScore.innerHTML = elements.score
 
