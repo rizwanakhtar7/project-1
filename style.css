@@ -101,11 +101,21 @@ button:hover {
   opacity:0.4;
 }
 
+
+ol {
+  font-size: 18px;
+}
+
+
 .two {
   background-color: #EEE4DA !important;
   animation: headShake; 
   animation-duration: 1s;
 }
+
+
+
+
 
 .four {
   background-color: #EEE1C9 !important;
@@ -129,12 +139,19 @@ button:hover {
   color:white;
 }
 
-.higher-numbers {
+.sixty-four {
   color:white;
   background-color:#f75f3b !important;
   border-radius: 6px  !important;
 
 }
+
+.higher_numbers {
+  color:white;
+  background-color:#edd073 !important;
+  font-size: 3em;
+}
+
 
 h1 {
   font-size: 80px;
@@ -184,4 +201,4 @@ h1 {
   display: flex;
 }
 
-
+  

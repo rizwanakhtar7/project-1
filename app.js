@@ -1,5 +1,7 @@
+//DOM Elements
 const elements = {
   grid: document.querySelector('.grid'),
+  colors: document.querySelector('.colors'),
   width: 4,
   cells: [],
   score: 0,
@@ -9,7 +11,41 @@ const elements = {
   displayBestScore: document.querySelector('#bestScore'),
   winningMsg: document.querySelector('.winner_message'),
   losingMsg: document.querySelector('.losing_message'),
+  playerScores: [],
+  leadershipList: document.querySelector('ol'),
+  player: {},
+  playAgain: document.querySelector('.play_again'),
 }
+
+function playAgain() {
+  window.location.reload()
+}
+
+//localStorage code
+if (localStorage) {
+  elements.playerScores = JSON.parse(localStorage.getItem('playerScores')) || []
+  console.log(elements.playerScores)
+  orderAndDisplayScores()
+}
+
+
+function orderAndDisplayScores() {
+  // Take the scores
+  const array = elements.playerScores
+    .sort((playerA, playerB) => playerB.score - playerA.score)
+    .map(player => {
+      return `<li>
+        ${player.name} has score of: <em>${player.score}</em>
+      </li>`
+    })
+
+  console.log(array)
+  const topThreeArr = array.splice(0, 3)
+  console.log(topThreeArr)
+  elements.leadershipList.innerHTML = topThreeArr.join('')
+}
+
+
 
 //create the Board
 for (let index = 0; index < elements.width ** 2; index++) {
@@ -21,11 +57,9 @@ for (let index = 0; index < elements.width ** 2; index++) {
   elements.cells.push(div)
 }
 
-elements.startGame.addEventListener('click', () => {
+function resetGame() {
   elements.winningMsg.classList.remove('show')
   elements.losingMsg.classList.remove('show')
-
-  //Reset board before next game
   elements.cells.forEach((grid) => {
     grid.classList.remove('Number')
     grid.classList.remove('two')
@@ -33,14 +67,25 @@ elements.startGame.addEventListener('click', () => {
     grid.classList.remove('eight')
     grid.classList.remove('sixteen')
     grid.classList.remove('thirty-two')
-    grid.classList.remove('higher-numbers')
+    grid.classList.remove('sixty-four')
+    grid.classList.remove('higher_numbers')
     grid.innerHTML = ''
   })
+}
 
+elements.startGame.addEventListener('click', () => {
+
+  const userChoice = prompt('Please select a username/ name')
+  elements.player['name'] = userChoice
+
+
+  resetGame()
   if (elements.score > 0 && elements.score > elements.bestScore) {
     elements.bestScore = elements.score
     elements.displayBestScore.innerHTML = elements.score
   }
+
+
 
   elements.score = 0
   elements.displayScore.innerHTML = 0
@@ -53,11 +98,11 @@ function randomSpotAndNumberGenerator(width) {
   //If all cells have innerHTML populated then stop game 
   const isEveryCellPopulated = elements.cells.every((cell) => cell.innerHTML > 0)
   if (isEveryCellPopulated) {
-    return gameOver()     
+    return gameOver()
   }
 
   //generate random number 2 or 4 from array
-  const twoOrFourArr = [2,4]
+  const twoOrFourArr = [2, 4]
   const randomIdx = Math.floor(Math.random() * twoOrFourArr.length)
   const twoOrFourNumber = twoOrFourArr[randomIdx]
   const randomNumberOnGrid = Math.floor(Math.random() * (width ** 2))
@@ -74,6 +119,7 @@ function randomSpotAndNumberGenerator(width) {
     randomSpotAndNumberGenerator(elements.width)
   }
 }
+
 document.addEventListener('keydown', (event) => {
   const key = event.key
   if (key === 'ArrowDown') {
@@ -130,7 +176,7 @@ function columnArrayBuilder(columnOne, columnTwo, columnThree, columnFour) {
   }
 }
 
-function arrayRowBuilder(rowOne,rowTwo,rowThree,rowFour) {
+function arrayRowBuilder(rowOne, rowTwo, rowThree, rowFour) {
   for (let i = 0; i < elements.width; i++) {
     rowOne.push(Number(elements.cells[i].innerHTML))
   }
@@ -151,9 +197,8 @@ function moveGridsDownwards() {
   //Build up columns
   const firstColumn = [], secondColumn = [], thirdColumn = [], fourthColumn = []
   columnArrayBuilder(firstColumn, secondColumn, thirdColumn, fourthColumn)
-  //Filter our array of 0's
+  //Filter array of 0's
   const firstCol = filterArray(firstColumn)
-
   let missingIndexesInArray = 4 - firstCol.length
 
   const updatedFirstColArr = [...new Array(missingIndexesInArray).fill(0), ...firstCol]
@@ -204,7 +249,6 @@ function moveGridsDownwards() {
   elements.cells[1 + elements.width].innerHTML = finalSortedAndCombinedSecondCol[1]
   elements.cells[1 + (elements.width * 2)].innerHTML = finalSortedAndCombinedSecondCol[2]
   elements.cells[1 + (elements.width * 3)].innerHTML = finalSortedAndCombinedSecondCol[3]
-  //END OF COMBINE 2ND COL
 
   const thirdCol = filterArray(thirdColumn)
 
@@ -257,14 +301,10 @@ function moveGridsDownwards() {
   elements.cells[3 + elements.width].innerHTML = FinalSortedAndCombinedCol[1]
   elements.cells[3 + (elements.width * 2)].innerHTML = FinalSortedAndCombinedCol[2]
   elements.cells[3 + (elements.width * 3)].innerHTML = FinalSortedAndCombinedCol[3]
-  //END OF COMBINING CALCULATOR 
-
   addNumbClass()
-
 }
 
 function moveGridsUpwards() {
-
   const firstColumn = [], secondColumn = [], thirdColumn = [], fourthColumn = []
   columnArrayBuilder(firstColumn, secondColumn, thirdColumn, fourthColumn)
 
@@ -291,7 +331,6 @@ function moveGridsUpwards() {
   elements.cells[0 + (elements.width * 2)].innerHTML = FinalSortedAndCombinedFirstCol[2]
   elements.cells[0 + (elements.width * 3)].innerHTML = FinalSortedAndCombinedFirstCol[3]
 
-  //END OF 1st COMBINER 
   const secondCol = filterArray(secondColumn)
 
   missingIndexesInArray = 4 - secondCol.length
@@ -339,7 +378,6 @@ function moveGridsUpwards() {
   elements.cells[2 + (elements.width * 2)].innerHTML = FinalSortedAndCombinedThirdCol[2]
   elements.cells[2 + (elements.width * 3)].innerHTML = FinalSortedAndCombinedThirdCol[3]
 
-  //END OF 3RD COMBINER 
   const fourthCol = filterArray(fourthColumn)
 
   missingIndexesInArray = 4 - fourthCol.length
@@ -363,8 +401,6 @@ function moveGridsUpwards() {
   elements.cells[3 + elements.width].innerHTML = FinalSortedAndCombinedCol[1]
   elements.cells[3 + (elements.width * 2)].innerHTML = FinalSortedAndCombinedCol[2]
   elements.cells[3 + (elements.width * 3)].innerHTML = FinalSortedAndCombinedCol[3]
-
-  //END OF COMBINING CALCULATOR 
   addNumbClass()
 }
 
@@ -419,7 +455,6 @@ function moveGridsLeft() {
   elements.cells[6].innerHTML = FinalSortedAndCombinedSecondRow[2]
   elements.cells[7].innerHTML = FinalSortedAndCombinedSecondRow[3]
 
-  //END OF COMBINING CALCULATOR -2ND ROW
   const thirdRowUpdated = filterArray(thirdRow)
 
   missingIndexesInArray = 4 - thirdRowUpdated.length
@@ -443,8 +478,6 @@ function moveGridsLeft() {
   elements.cells[9].innerHTML = FinalSortedAndCombinedThirdRow[1]
   elements.cells[10].innerHTML = FinalSortedAndCombinedThirdRow[2]
   elements.cells[11].innerHTML = FinalSortedAndCombinedThirdRow[3]
-
-  //END OF COMBINING CALCULATOR -3rd ROW
 
   const fourthRowUpdated = filterArray(fourthRow)
 
@@ -470,8 +503,6 @@ function moveGridsLeft() {
   elements.cells[13].innerHTML = FinalSortedAndCombinedFourthRow[1]
   elements.cells[14].innerHTML = FinalSortedAndCombinedFourthRow[2]
   elements.cells[15].innerHTML = FinalSortedAndCombinedFourthRow[3]
-
-  //END OF COMBINING CALCULATOR -4th ROW
   addNumbClass()
 }
 
@@ -488,7 +519,6 @@ function moveGridsRight() {
   elements.cells[2].innerHTML = updatedFirstRowArr[2]
   elements.cells[3].innerHTML = updatedFirstRowArr[3]
 
-  //COMBINER FOR FIRST ROW 
   numberMergeCalculate(3, updatedFirstRowArr)
 
   const firstRowAfterCombining = [updatedFirstRowArr[0], updatedFirstRowArr[1], updatedFirstRowArr[2], updatedFirstRowArr[3]]
@@ -513,7 +543,6 @@ function moveGridsRight() {
   elements.cells[6].innerHTML = updatedSecondRowArr[2]
   elements.cells[7].innerHTML = updatedSecondRowArr[3]
 
-  //COMBINER FOR 2nd ROW 
   numberMergeCalculate(3, updatedSecondRowArr)
 
   const secondRowAfterCombining = [updatedSecondRowArr[0], updatedSecondRowArr[1], updatedSecondRowArr[2], updatedSecondRowArr[3]]
@@ -527,7 +556,6 @@ function moveGridsRight() {
   elements.cells[5].innerHTML = FinalSortedAndCombinedSecondRow[1]
   elements.cells[6].innerHTML = FinalSortedAndCombinedSecondRow[2]
   elements.cells[7].innerHTML = FinalSortedAndCombinedSecondRow[3]
-  //END OF COMBINING CALCULATOR -2ND ROW 
 
   const thirdRowUpdated = filterArray(thirdRow)
 
@@ -554,7 +582,6 @@ function moveGridsRight() {
   elements.cells[10].innerHTML = FinalSortedAndCombinedThirdRow[2]
   elements.cells[11].innerHTML = FinalSortedAndCombinedThirdRow[3]
 
-  //END OF COMBINING CALCULATOR -3rd ROW
   const fourthRowUpdated = filterArray(fourthRow)
 
   missingIndexesInArray = 4 - fourthRowUpdated.length
@@ -577,26 +604,34 @@ function moveGridsRight() {
   elements.cells[13].innerHTML = FinalSortedAndCombinedFourthRow[1]
   elements.cells[14].innerHTML = FinalSortedAndCombinedFourthRow[2]
   elements.cells[15].innerHTML = FinalSortedAndCombinedFourthRow[3]
-
   addNumbClass()
 }
 
-function gameOver() {
+const gameOver = () => { 
+  elements.player['score'] = elements.score
+  elements.playerScores.push(elements.player)
+  orderAndDisplayScores()
+  console.log(elements.playerScores)
+  if (localStorage) {
+    localStorage.setItem('playerScores', JSON.stringify(elements.playerScores))
+  }
   elements.losingMsg.classList.add('show')
-}
 
-function addNumbClass(){
+}
+const winner = () => elements.winningMsg.classList.add('show')
+
+function addNumbClass() {
   elements.cells.forEach((grid) => {
     if (grid.innerHTML === '2048') {
-      elements.winningMsg.classList.add('show')
+      winner()
     }
-
     grid.classList.remove('two')
     grid.classList.remove('four')
     grid.classList.remove('eight')
     grid.classList.remove('sixteen')
     grid.classList.remove('thirty-two')
-    grid.classList.remove('higher-numbers')
+    grid.classList.remove('sixty-four')
+    grid.classList.remove('higher_numbers')
 
     grid.classList.add('Number')
     if (grid.innerHTML === '0') {
@@ -605,9 +640,8 @@ function addNumbClass(){
       grid.classList.remove('eight')
       grid.classList.remove('sixteen')
       grid.classList.remove('thirty-two')
-      grid.classList.remove('higher-numbers')
-
-
+      grid.classList.remove('sixty-four')
+      grid.classList.remove('higher_numbers')
       grid.innerHTML = ''
     } else if (grid.innerHTML === '2') {
       grid.classList.add('two')
@@ -619,14 +653,18 @@ function addNumbClass(){
       grid.classList.add('sixteen')
     } else if (grid.innerHTML === '32') {
       grid.classList.add('thirty-two')
-
-    } else  {
-      grid.classList.add('higher-numbers')
-
+    } else if (grid.innerHTML === '64') {
+      grid.classList.add('sixty-four')
+    } else {
+      grid.classList.add('higher_numbers')
     }
-
-    
   })
 }
 
+// function removeColor() {
+//   const colorClasses = ['two','four','eight','sixteen','thirty-two','higher-numbers']
 
+//   colorClasses.map((color) => {
+//     colorClasses.classList.remove
+//   })
+// }

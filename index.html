@@ -27,7 +27,7 @@
   <div class="winner_message">
     <div>
       <h2>Congratulations! You have successfully created 2048, click button below to play again!</h2>
-      <button>Play Again</button>
+      <button class="play_again" onClick="playAgain()">Play Again</button>
     </div>
   </div>
 
@@ -35,7 +35,12 @@
   <div class="losing_message">
     <div>
       <h2>Gameover - better luck next time!</h2>
-      <button>Play Again</button>
+      
+      <h2>Current Leadership Board:</h2>
+      <ol></ol>
+     
+      <button class="play_again" onClick="playAgain()">Try Again</button>
+
     </div>
   </div>
   <button class="start_game">Start Game</button>
