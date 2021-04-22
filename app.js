@@ -1,4 +1,3 @@
-//DOM Elements
 const elements = {
   grid: document.querySelector('.grid'),
   colors: document.querySelector('.colors'),
@@ -17,35 +16,24 @@ const elements = {
   playAgain: document.querySelector('.play_again'),
 }
 
-function playAgain() {
-  window.location.reload()
-}
-
-//localStorage code
 if (localStorage) {
   elements.playerScores = JSON.parse(localStorage.getItem('playerScores')) || []
-  console.log(elements.playerScores)
   orderAndDisplayScores()
 }
 
-
 function orderAndDisplayScores() {
-  // Take the scores
   const array = elements.playerScores
     .sort((playerA, playerB) => playerB.score - playerA.score)
     .map(player => {
-      return `<li>
-        ${player.name} has score of: <em>${player.score}</em>
+      return `<li class="leaders">
+        ${player.name} with score of: <b><em>${player.score}</em></b>
+        <img src="./images/star_PNG.png" height="20" width="20" />
       </li>`
     })
-
-  console.log(array)
+  //create top three high scores array
   const topThreeArr = array.splice(0, 3)
-  console.log(topThreeArr)
   elements.leadershipList.innerHTML = topThreeArr.join('')
 }
-
-
 
 //create the Board
 for (let index = 0; index < elements.width ** 2; index++) {
@@ -78,24 +66,19 @@ elements.startGame.addEventListener('click', () => {
   const userChoice = prompt('Please select a username/ name')
   elements.player['name'] = userChoice
 
-
   resetGame()
-  if (elements.score > 0 && elements.score > elements.bestScore) {
-    elements.bestScore = elements.score
-    elements.displayBestScore.innerHTML = elements.score
-  }
+  bestScoreSave()
 
-
-
+  //reset scores for new game
   elements.score = 0
   elements.displayScore.innerHTML = 0
-
+  //Generate two random numbers on start game
   randomSpotAndNumberGenerator(elements.width)
   randomSpotAndNumberGenerator(elements.width)
 })
 
 function randomSpotAndNumberGenerator(width) {
-  //If all cells have innerHTML populated then stop game 
+  //If all grids have numbers populated then stop game 
   const isEveryCellPopulated = elements.cells.every((cell) => cell.innerHTML > 0)
   if (isEveryCellPopulated) {
     return gameOver()
@@ -137,6 +120,7 @@ document.addEventListener('keydown', (event) => {
   }
 })
 
+//Function to combine identical numbers in row & column
 function numberMergeCalculate(startIndexNumber, arrCol) {
   if (startIndexNumber === 3) {
     while (startIndexNumber >= 0) {
@@ -194,7 +178,6 @@ function arrayRowBuilder(rowOne, rowTwo, rowThree, rowFour) {
 const filterArray = (array) => array.filter(numb => numb)
 
 function moveGridsDownwards() {
-  //Build up columns
   const firstColumn = [], secondColumn = [], thirdColumn = [], fourthColumn = []
   columnArrayBuilder(firstColumn, secondColumn, thirdColumn, fourthColumn)
   //Filter array of 0's
@@ -235,7 +218,6 @@ function moveGridsDownwards() {
   elements.cells[1 + (elements.width * 2)].innerHTML = updatedSecondColArr[2]
   elements.cells[1 + (elements.width * 3)].innerHTML = updatedSecondColArr[3]
 
-  //Call function to merge combining columns
   numberMergeCalculate(3, updatedSecondColArr)
 
   const ColumnAfterCombiningSecondCol = [updatedSecondColArr[0], updatedSecondColArr[1], updatedSecondColArr[2], updatedSecondColArr[3]]
@@ -260,7 +242,6 @@ function moveGridsDownwards() {
   elements.cells[2 + (elements.width * 2)].innerHTML = updatedThirdColArr[2]
   elements.cells[2 + (elements.width * 3)].innerHTML = updatedThirdColArr[3]
 
-  //Call function to merge combining columns
   numberMergeCalculate(3, updatedThirdColArr)
 
   const ColumnAfterCombiningThirdCol = [updatedThirdColArr[0], updatedThirdColArr[1], updatedThirdColArr[2], updatedThirdColArr[3]]
@@ -286,7 +267,6 @@ function moveGridsDownwards() {
   elements.cells[3 + (elements.width * 2)].innerHTML = updatedFourthColArr[2]
   elements.cells[3 + (elements.width * 3)].innerHTML = updatedFourthColArr[3]
 
-  //Call function to merge combining columns
   numberMergeCalculate(3, updatedFourthColArr)
 
   const ColumnAfterCombining = [updatedFourthColArr[0], updatedFourthColArr[1], updatedFourthColArr[2], updatedFourthColArr[3]]
@@ -301,6 +281,7 @@ function moveGridsDownwards() {
   elements.cells[3 + elements.width].innerHTML = FinalSortedAndCombinedCol[1]
   elements.cells[3 + (elements.width * 2)].innerHTML = FinalSortedAndCombinedCol[2]
   elements.cells[3 + (elements.width * 3)].innerHTML = FinalSortedAndCombinedCol[3]
+  //make sure numbers have same font size /style
   addNumbClass()
 }
 
@@ -503,6 +484,7 @@ function moveGridsLeft() {
   elements.cells[13].innerHTML = FinalSortedAndCombinedFourthRow[1]
   elements.cells[14].innerHTML = FinalSortedAndCombinedFourthRow[2]
   elements.cells[15].innerHTML = FinalSortedAndCombinedFourthRow[3]
+
   addNumbClass()
 }
 
@@ -604,20 +586,23 @@ function moveGridsRight() {
   elements.cells[13].innerHTML = FinalSortedAndCombinedFourthRow[1]
   elements.cells[14].innerHTML = FinalSortedAndCombinedFourthRow[2]
   elements.cells[15].innerHTML = FinalSortedAndCombinedFourthRow[3]
+
   addNumbClass()
 }
 
 const gameOver = () => { 
+
+  //show top 3 player scores
   elements.player['score'] = elements.score
   elements.playerScores.push(elements.player)
   orderAndDisplayScores()
-  console.log(elements.playerScores)
   if (localStorage) {
     localStorage.setItem('playerScores', JSON.stringify(elements.playerScores))
   }
   elements.losingMsg.classList.add('show')
 
 }
+
 const winner = () => elements.winningMsg.classList.add('show')
 
 function addNumbClass() {
@@ -661,10 +646,12 @@ function addNumbClass() {
   })
 }
 
-// function removeColor() {
-//   const colorClasses = ['two','four','eight','sixteen','thirty-two','higher-numbers']
+//When user clicks play again
+const playAgain = () => window.location.reload()
 
-//   colorClasses.map((color) => {
-//     colorClasses.classList.remove
-//   })
-// }
+function bestScoreSave() {
+  if (elements.score > 0 && elements.score > elements.bestScore) {
+    elements.bestScore = elements.score
+    elements.displayBestScore.innerHTML = elements.score
+  }
+}
