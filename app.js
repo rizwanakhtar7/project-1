@@ -14,6 +14,9 @@ const elements = {
   leadershipList: document.querySelector('ol'),
   player: {},
   playAgain: document.querySelector('.play_again'),
+  closeBtn: document.querySelector('.exit'),
+  instructionsScreen: document.querySelector('.instructions_screen'),
+  instructionsMainLink: document.querySelector('.instructions'),
 }
 
 if (localStorage) {
@@ -655,3 +658,14 @@ function bestScoreSave() {
     elements.displayBestScore.innerHTML = elements.score
   }
 }
+
+//when user clicks link for instructions
+elements.instructionsMainLink.addEventListener('click', () => {
+  elements.instructionsScreen.style.display = 'block'
+
+})
+
+//to close instructions
+elements.closeBtn.addEventListener('click', () => {
+  elements.instructionsScreen.style.display = 'none'
+})

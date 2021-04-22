@@ -49,8 +49,16 @@ body {
   justify-content: space-between;
   width: 500px;
   height:16vh;
-
+  line-height: 30px;
 }
+
+span.instructions {
+  font-size:20px;
+  font-weight: lighter;
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+
 .score_board {
   display: flex;
   justify-content: space-around;
@@ -64,7 +72,7 @@ body {
   display: flex;
   justify-content: center;
   border-radius: 6px;
-  height:10vh;
+  height:11vh;
   align-self: center;
 
 }
@@ -74,7 +82,8 @@ body {
   font-weight: bold;
   color:#EEE4DA;
   font-size: 13px;
-
+  text-align: center;
+  line-height: 25px;
 }
 
 
@@ -161,6 +170,39 @@ h1 {
   }
 }
 
+.instructions_screen {
+  display: none;
+  position: fixed;
+  width: 500px;
+  height:350px;
+  animation: fadeInDown;
+  animation-duration: 2s;
+  background-color: rgba(0,0,0,0.2);
+  align-items: center;
+  color:white;
+  border: 3px solid #776e65;
+  padding:0.5em;
+
+}
+
+.instructions_screen div {
+  display: flex;
+  flex:1;
+  justify-content: space-between;
+  align-items: center;
+}
+.instructions_screen div span {
+  font-size: 23px;
+  background-color:#f69664;
+  padding: 0.2em;
+}
+
+.instructions_screen div span:hover {
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+
 .winner_message, .losing_message {
   display: none;
   position: fixed;
@@ -182,7 +224,19 @@ h1 {
   align-self: center;
 }
 
-.winner_message h2, .losing_message h2 {
+p.how_to_play {
+  line-height: 25px;
+  font-size: 1.1em;
+  width: 80%;
+  text-align: center;
+  background-color: #EEE4DA59;
+  color:white;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding:0.3em
+}
+
+.winner_message h2, .losing_message h2,.instructions_screen h2 {
   background: #faf8ef;
   text-align: center;
   font-weight: bold;
@@ -195,6 +249,10 @@ h1 {
 
 .winner_message.show, .losing_message.show {
   display: flex;
+}
+
+.close_instructions_screen {
+  display: none;
 }
 
 li.leaders {
