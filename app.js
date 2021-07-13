@@ -128,6 +128,7 @@ function numberMergeCalculate(startIndexNumber, arrCol) {
   if (startIndexNumber === 3) {
     while (startIndexNumber >= 0) {
       if (arrCol[startIndexNumber] === arrCol[startIndexNumber - 1]) {
+
         arrCol[startIndexNumber] += arrCol[startIndexNumber - 1]
         arrCol[startIndexNumber - 1] = 0
         elements.score += Number(arrCol[startIndexNumber])
@@ -138,6 +139,7 @@ function numberMergeCalculate(startIndexNumber, arrCol) {
   } else if (startIndexNumber === 0) {
     while (startIndexNumber < 3) {
       if (arrCol[startIndexNumber + 1] === arrCol[startIndexNumber]) {
+
         arrCol[startIndexNumber] += arrCol[startIndexNumber + 1]
         arrCol[startIndexNumber + 1] = 0
         elements.score += Number(arrCol[startIndexNumber])
