@@ -1,7 +1,9 @@
 # Project 1: Tetris
 ## Timeframe : *1 week*
 ### Goal: 
-Create fully functioning game using HTML, CSS & JavaScript 
+
+Create fully functioning game using HTML, CSS & JavaScript. 
+
 ## Technologies Applied:
 ### 
 - HTML5
@@ -21,23 +23,25 @@ https://play2048.co/
 
 My Deployed version : https://rizwanakhtar7.github.io/project-1/
 
-![deployed image](images/main-image.png)
-
+<p>
+<img src="images/main-image.png" alt="main image for 2048"/>
+</p>
 
 ### Controls
 - Click **Start Game** button to play & enter a username to play as :
-![username enter](images/username-enter.png)
-
+<p>
+<img src="images/username-enter.png" alt="user name enter"/>
+</p>
 - Use Arrow Keys (left, right, up, down) to move the squares accordingly
-- Goal is to build 2048 to win OR score highest score to earn place on leadership board
-- Squares with the same number merge into one when they touch
+- Goal is to build 2048 to win OR score highest score to earn place on leadership board.
+- Squares with the same number merge into one when they touch.
 
 ### Day One:
 * Pseudocoding and sign off with steps:
-- Create 4 by 4 grid 
-- Render random numbers (2 or 4) per keyboard move
+- Create 4 by 4 grid. 
+- Render random numbers (2 or 4) per keyboard move.
 - if 2 and 2 OR 4 or 4 touch on grid for example, merge the two numbers. If 2 and 4, stack.
-- if 2048, display winning message, if every cell filled - end game
+- if 2048, display winning message, if every cell filled - end game.
 
 ### Day Two:
 Focused on the random spot generator function to generate either a 2 or 4 on the grid and in a new blank space each time.
@@ -92,7 +96,7 @@ document.addEventListener('keydown', (event) => {
 })
 
 ```
-After this I called a function for example the moveGridsDownwards which would take the numbers in that row or column and store in an array and call filter Array function to filter out the 0s. The resulting updated array would be filled with 0s and number merge calculated incase any numbers are the same and need to be added and merged together. The FinalSortedAndCombineCol function merged this final array together, filling it up with 0s for any gaps left
+After this I called a function for example the moveGridsDownwards which would take the numbers in that row or column and store in an array and call filter Array function to filter out the 0s. The resulting updated array would be filled with 0s and number merge calculated incase any numbers are the same and need to be added and merged together. The FinalSortedAndCombineCol function merged this final array together, filling it up with 0s for any gaps left.
 
 ```
 const FinalSortedAndCombinedCol = [...new Array(missingIndexesInArray).fill(0), ...fourthColPostCombineFilter]
@@ -152,9 +156,9 @@ function addNumbClass() {
 ```
 
 Additionally I styled:
-- Borders
-- Grid Color
-- Score counter && Best Score
+- Borders.
+- Grid Color.
+- Score counter && Best Score.
 
 
 ### Wins
@@ -164,7 +168,7 @@ Additionally I styled:
 
 ### Challenges
 - The biggest challenge for me was to correctly apply the function to swipe correctly.
-- the merge calculator function to correctly  collapse the arrays on each side accordingly and calculate the sum.
+- The merge calculator function to correctly  collapse the arrays on each side accordingly and calculate the sum.
 
 ### Learnings
 - Problem Solving - This was the first project ever where I had to break down a complex problem and have a step by step approach to get to my goal independently.
@@ -172,11 +176,11 @@ Additionally I styled:
 
 
 ### Features to Implement 
-- Implement swiping for mobiles
-- the score function to add animation in a more professional / attractive way
-- different levels with different challenges
+- Implement swiping for mobiles.
+- the score function to add animation in a more professional / attractive way.
+- different levels with different challenges.
 
 ### Credits
-- Nick Hayes SEI Instructor - for help creating the 4 by 4 grid responsively in JS
+- Nick Hayes SEI Instructor - for help creating the 4 by 4 grid responsively in JS.
 - https://play2048.co/
-- https://animate.style/ for styling animations
+- https://animate.style/ for styling animations.
