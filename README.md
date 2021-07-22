@@ -1,4 +1,4 @@
-# Project 1: Tetris
+# Project 1: 2048
 ## Timeframe : *1 week*
 ### Goal: 
 
@@ -23,9 +23,7 @@ https://play2048.co/
 
 My Deployed version : https://rizwanakhtar7.github.io/project-1/
 
-<p>
-<img src="images/main-image.png" alt="main image for 2048"/>
-</p>
+![deployed version](images/main-image.png)
 
 ### Controls
 - Click **Start Game** button to play & enter a username to play as :
@@ -173,6 +171,10 @@ Additionally I styled:
 ### Learnings
 - Problem Solving - This was the first project ever where I had to break down a complex problem and have a step by step approach to get to my goal independently.
 - Solidifying the fundamental concepts of JS / CSS - I set myself a target to really solidify the concepts of variables, functions, loops and conditionals and CSS Flexbox and making the grids and game in general responsive.
+
+
+### Bugs
+No Bugs found during testing
 
 
 ### Features to Implement 
