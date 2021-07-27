@@ -1,8 +1,16 @@
 # Project 1: 2048
 ## Timeframe : *1 week*
-### Goal: 
 
-Create fully functioning game using HTML, CSS & JavaScript. 
+## Overview:
+This was my first project at General Assembly, given just over a week to build a game. I chose 2048, which was one of the toughest games in difficuly out of the options given. Understanding the challenges of implementing the game helped me understand how to allocate my time during the project accordingly. I enjoyed playing this game on iPhone, so both the challenge and love of the game allowed me to jump right in to developing this game.
+
+### Brief: 
+- Create fully functioning grid based game using HTML, CSS & JavaScript. 
+- Use JavaScript to manipulate the DOM.
+- Deploy the game online so anyone can access it.
+- Render the game in the browser.
+- Use semantic markup for HTML and CSS (best practices).
+- Remember the DRY (Don't Repeat Yourself) and KISS (Keep It Simple Stupid) principles.
 
 ## Technologies Applied:
 ### 
@@ -14,16 +22,11 @@ Create fully functioning game using HTML, CSS & JavaScript.
 - Google Fonts
 - Animate.css library
 
-## Overview:
-This was my first project at General Assembly, given just over a week to build a game. I chose 2048, which was one of the toughest games in difficuly out of the options given. Understanding the challenges of implementing the game helped me understand how to allocate my time during the project accordingly. I enjoyed playing this game on IPhone, so both the challenge and love of the game allowed me to jump right in to developing this game.
-
 
 *link to implementation*
 https://play2048.co/
 
 My Deployed version : https://rizwanakhtar7.github.io/project-1/
-
-![deployed version](images/main-image.png)
 
 ### Controls
 - Click **Start Game** button to play & enter a username to play as :
@@ -34,9 +37,17 @@ My Deployed version : https://rizwanakhtar7.github.io/project-1/
 - Goal is to build 2048 to win OR score highest score to earn place on leadership board.
 - Squares with the same number merge into one when they touch.
 
+### Approach
+- Wireframes / Mockups. As part of our sign off process, we had to talk through our wireframes and approach to logic for the game.
+
+I understood the toughest part for me was figuring out how to get the swipe movement working in all directions and the merge functionality. Before jumping into coding, I decided to spend the bulk of the day focusing on this aspect after having  other parts of the logic figured out. This focus allowed me to easily translate the logic into code for the remainder of the week.
+
+Setting myself regular targets, allowed me be on top of my deadlines and finish before the final deadline in order to focus on stretch goals, brush up on styling and refactor my code.
+
 ### Day One:
-* Pseudocoding and sign off with steps:
-- Create 4 by 4 grid. 
+* Pseudo-coding and sign off with steps:
+- Create 4 by 4 grid.
+ 
 - Render random numbers (2 or 4) per keyboard move.
 - if 2 and 2 OR 4 or 4 touch on grid for example, merge the two numbers. If 2 and 4, stack.
 - if 2048, display winning message, if every cell filled - end game.
@@ -170,19 +181,18 @@ Additionally I styled:
 
 ### Learnings
 - Problem Solving - This was the first project ever where I had to break down a complex problem and have a step by step approach to get to my goal independently.
-- Solidifying the fundamental concepts of JS / CSS - I set myself a target to really solidify the concepts of variables, functions, loops and conditionals and CSS Flexbox and making the grids and game in general responsive.
+- Solidifying the fundamental concepts of JavaScript / CSS - I set myself a target to really solidify the concepts of variables, functions, loops and conditionals and CSS Flexbox and making the grids and game in general responsive.
 
 
 ### Bugs
-No Bugs found during testing
+No bugs found during testing.
 
-
-### Features to Implement 
+### New features to implement 
 - Implement swiping for mobiles.
-- the score function to add animation in a more professional / attractive way.
-- different levels with different challenges.
+- The score function to add animation in a more professional / attractive way.
+- Different levels with different challenges.
 
 ### Credits
-- Nick Hayes SEI Instructor - for help creating the 4 by 4 grid responsively in JS.
+- Nick Hayes SEI Instructor - for help creating the 4 by 4 grid responsively in JavaScript.
 - https://play2048.co/
 - https://animate.style/ for styling animations.
