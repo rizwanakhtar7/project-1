@@ -186,7 +186,7 @@ Additionally I styled:
 ### Bugs
 No bugs found during testing.
 
-### New features to implement 
+### New Features To Implement 
 - Implement swiping for mobiles.
 - The score function to add animation in a more professional / attractive way.
 - Different levels with different challenges.
