@@ -29,11 +29,11 @@ https://play2048.co/
 My Deployed version : https://rizwanakhtar7.github.io/project-1/
 
 ### Controls
-- Click **Start Game** button to play & enter a username to play as :
+- Click **Start Game** button to play & enter a username to play as:
 <p>
 <img src="images/username-enter.png" alt="user name enter"/>
 </p>
-- Use Arrow Keys (left, right, up, down) to move the squares accordingly
+- Use Arrow Keys (left, right, up, down) to move the squares accordingly.
 - Goal is to build 2048 to win OR score highest score to earn place on leadership board.
 - Squares with the same number merge into one when they touch.
 
@@ -47,7 +47,6 @@ Setting myself regular targets, allowed me be on top of my deadlines and finish 
 ### Day One:
 * Pseudo-coding and sign off with steps:
 - Create 4 by 4 grid.
- 
 - Render random numbers (2 or 4) per keyboard move.
 - if 2 and 2 OR 4 or 4 touch on grid for example, merge the two numbers. If 2 and 4, stack.
 - if 2048, display winning message, if every cell filled - end game.
@@ -56,7 +55,7 @@ Setting myself regular targets, allowed me be on top of my deadlines and finish 
 Focused on the random spot generator function to generate either a 2 or 4 on the grid and in a new blank space each time.
 
 ```function randomSpotAndNumberGenerator(width) {
-  //If all grids have numbers populated then stop game 
+  //If all grids have numbers populated then stop game. 
   const isEveryCellPopulated = elements.cells.every((cell) => cell.innerHTML > 0)
   if (isEveryCellPopulated) {
     return gameOver()
@@ -173,7 +172,7 @@ Additionally I styled:
 ### Wins
 - Achieving my targets throughout the week including MVP, styling goals and refactoring code as I went along.
 
-- Pseudocoding, taking time to plan in detail helped me to write the code smoothly, testing throroughly as I went along developing the game.
+- Pseudo-coding, taking time to plan in detail helped me to write the code smoothly, testing throroughly as I went along developing the game.
 
 ### Challenges
 - The biggest challenge for me was to correctly apply the function to swipe correctly.
@@ -194,5 +193,5 @@ No bugs found during testing.
 
 ### Credits
 - Nick Hayes SEI Instructor - for help creating the 4 by 4 grid responsively in JavaScript.
-- https://play2048.co/
+- https://play2048.co/.
 - https://animate.style/ for styling animations.
